@@ -126,12 +126,13 @@ export default function Home() {
             muted
             playsInline
             poster="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop"
-            className="w-full h-full object-cover object-center opacity-40 scale-105 pointer-events-none"
+            className="w-full h-full object-cover object-center opacity-80 scale-105 pointer-events-none"
           >
             <source src="/videos/hero-car.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/85 to-[#111111]/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/40" />
+          {/* Subtle directional vignette: dark behind text on left, clear on center & road */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/90 via-[#111111]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/30" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 w-full">
