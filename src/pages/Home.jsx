@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowUpRight, 
@@ -22,11 +22,53 @@ import AnimatedCounter from '../components/AnimatedCounter';
 import { VEHICLES, CONTACT_INFO } from '../data/cars';
 import { useTheme } from '../context/ThemeContext';
 
+const HERO_VIDEOS = [
+  {
+    src: '/videos/hero-car.mp4',
+    title: 'Highway Executive Cruise'
+  },
+  {
+    src: '/videos/hero-car-2.mp4',
+    title: 'Night Highway Transit'
+  },
+  {
+    src: '/videos/hero-car-3.mp4',
+    title: 'Scenic Asphalt Journey'
+  }
+];
+
 export default function Home() {
   const navigate = useNavigate();
   const { isDark } = useTheme();
   const [selectedFilter, setSelectedFilter] = useState('All');
   
+  // Hero multi-video cross-fade state
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+  const videoRefs = useRef([]);
+
+  useEffect(() => {
+    // Play active video smoothly
+    const currentVideo = videoRefs.current[activeVideoIndex];
+    if (currentVideo) {
+      currentVideo.currentTime = 0;
+      currentVideo.play().catch(() => {});
+    }
+
+    // Pre-buffer next video
+    const nextIdx = (activeVideoIndex + 1) % HERO_VIDEOS.length;
+    const nextVideo = videoRefs.current[nextIdx];
+    if (nextVideo) {
+      nextVideo.load();
+    }
+
+    // Seamless automatic transition every 7.5 seconds
+    const timer = setTimeout(() => {
+      setActiveVideoIndex(nextIdx);
+    }, 7500);
+
+    return () => clearTimeout(timer);
+  }, [activeVideoIndex]);
+
   // Hero booking search state
   const [heroSearch, setHeroSearch] = useState({
     carSlug: '',
@@ -118,21 +160,26 @@ export default function Home() {
     }`}>
       {/* 1. HERO SECTION (Refined Commercial Luxury Staging with Cinematic Background Video) */}
       <section className="relative min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden border-b border-zinc-800">
-        {/* Background Video with Dark Luxury Vignette Overlay */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop"
-            className="w-full h-full object-cover object-center opacity-80 scale-105 pointer-events-none"
-          >
-            <source src="/videos/hero-car.mp4" type="video/mp4" />
-          </video>
+        {/* Background Multi-Video Carousel with Seamless Cross-fade */}
+        <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+          {HERO_VIDEOS.map((item, idx) => (
+            <video
+              key={item.src}
+              ref={(el) => (videoRefs.current[idx] = el)}
+              muted
+              playsInline
+              preload="auto"
+              poster="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop"
+              className={`absolute inset-0 w-full h-full object-cover object-center scale-105 pointer-events-none transition-opacity duration-1000 ease-in-out ${
+                activeVideoIndex === idx ? 'opacity-80 z-10' : 'opacity-0 z-0'
+              }`}
+            >
+              <source src={item.src} type="video/mp4" />
+            </video>
+          ))}
           {/* Subtle directional vignette: dark behind text on left, clear on center & road */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#111111]/90 via-[#111111]/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/30" />
+          <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#111111]/90 via-[#111111]/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#111111] via-transparent to-black/30 pointer-events-none" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 w-full">
@@ -305,6 +352,23 @@ export default function Home() {
             </div>
 
           </div>
+        </div>
+
+        {/* Subtle Cinematic Video Scene Indicators */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2.5 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
+          {HERO_VIDEOS.map((video, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveVideoIndex(idx)}
+              title={video.title}
+              aria-label={video.title}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                activeVideoIndex === idx
+                  ? 'w-8 bg-[#ff3600]'
+                  : 'w-2 bg-white/40 hover:bg-white/70'
+              }`}
+            />
+          ))}
         </div>
       </section>
 
