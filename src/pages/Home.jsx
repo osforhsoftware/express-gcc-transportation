@@ -116,15 +116,20 @@ export default function Home() {
     <div className={`min-h-screen transition-colors duration-300 ${
       isDark ? 'bg-[#111111] text-white' : 'bg-white text-gray-900'
     }`}>
-      {/* 1. HERO SECTION (Refined Commercial Luxury Staging) */}
+      {/* 1. HERO SECTION (Refined Commercial Luxury Staging with Cinematic Background Video) */}
       <section className="relative min-h-[640px] lg:min-h-[720px] flex items-center overflow-hidden border-b border-zinc-800">
-        {/* Background Image with Dark Luxury Vignette Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop"
-            alt="Executive Luxury Vehicle"
-            className="w-full h-full object-cover object-center opacity-35"
-          />
+        {/* Background Video with Dark Luxury Vignette Overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop"
+            className="w-full h-full object-cover object-center opacity-40 scale-105 pointer-events-none"
+          >
+            <source src="/videos/hero-car.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-r from-[#111111] via-[#111111]/85 to-[#111111]/50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-black/40" />
         </div>
