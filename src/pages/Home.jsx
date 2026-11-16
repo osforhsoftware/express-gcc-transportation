@@ -29,7 +29,7 @@ const HERO_VIDEOS = [
   },
   {
     src: '/videos/hero-car-2.mp4',
-    title: 'City Avenue Night Drive'
+    title: 'Open Highway Horizon Drive'
   },
   {
     src: '/videos/hero-car-3.mp4',
