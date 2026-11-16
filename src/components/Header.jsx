@@ -12,6 +12,7 @@ import {
 import { CONTACT_INFO } from '../data/cars';
 import ExpressLogo from './ExpressLogo';
 import ThemeToggle from './ThemeToggle';
+import WhatsAppDropdown from './WhatsAppDropdown';
 import { useTheme } from '../context/ThemeContext';
 
 export default function Header() {
@@ -90,6 +91,9 @@ export default function Header() {
               <Search className="w-4 h-4" />
             </Link>
 
+            {/* WhatsApp Direct Contact Button */}
+            <WhatsAppDropdown />
+
             <div className={`h-4 w-px ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`} />
 
             {/* Book Now Button */}
@@ -102,8 +106,9 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile Menu & Toggle */}
+          {/* Mobile Menu & Quick Actions */}
           <div className="flex md:hidden items-center space-x-2">
+            <WhatsAppDropdown />
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
