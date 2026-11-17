@@ -259,18 +259,7 @@ export default function Footer() {
               Copyright © 2026 All Rights Reserved by Express GCC Transportation
             </div>
 
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                {['X', 'in', 'f', 'ig'].map((social, idx) => (
-                  <span
-                    key={idx}
-                    className="w-7 h-7 rounded-full border border-gray-300 dark:border-zinc-800 text-gray-600 dark:text-zinc-400 flex items-center justify-center text-[10px] font-bold hover:border-[#ff3600] hover:text-[#ff3600] cursor-pointer transition-colors"
-                  >
-                    {social}
-                  </span>
-                ))}
-              </div>
-
+            <div className="flex items-center">
               {/* Scroll To Top Button */}
               <button
                 onClick={scrollToTop}
